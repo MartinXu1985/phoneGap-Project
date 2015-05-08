@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.2.css" />
+        <title>Tianjun Xu</title>
+        <style>
+            img {max-height:90%;max-width:100%;}
+            
+        </style>
+    </head>
+    <body>
+        <div data-role="page" data-control-title="login" id="initiation">
+            
+            <div data-theme="b" data-role="header">
+                <h1 class="ui-title">Mobile Client</h1>
+            </div>
+            <div role="main" class="ui-content">
+                <form id="form111" >
+                    <label> USERNAME </label>
+                    <input type="text" id="username" name="username">
+                        <label> Password </label>
+                        <input type="password" id="passwrd" name="passwrd" >
+                            <br>
+                            <input type="submit" value="Login" id="loginbutton" data-theme="b" >
+                </form>   
+            </div>
+        </div>
+        <div data-role="page" data-control-title="Home" id="page1">
+            <div data-theme="b" data-role="header">
+                <h1 class="ui-title">
+                    Mobile Client
+                </h1>
+            </div>
+            <div role="main" class="ui-content">
+              <div class="app">
+               <div id="deviceready" class="blink">
+                   <p class="event listening">Connecting to Device</p>
+                   <p class="event received">Device is Ready</p>
+               </div>
+               <div>
+                   <a href="#" id="upload" data-icon="arrow-u" data-iconpos="left" class="ui-btn  ui-icon-arrow-u ui-btn-icon-left" onclick="getImage();">
+                       Upload Photo
+                   </a>
+               </div>
+               </div>
+            </div>
+            <div data-theme="a" data-role="footer" data-position="fixed">
+                    <div data-role="navbar" data-iconpos="top">
+                        <ul>
+                            <li>
+                                <a href="#page1" data-transition="flip" data-theme="e" data-icon="home">
+                                    Upload
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#page2" data-transition="flip" data-theme="d" data-icon="star">
+                                    View
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+            </div>
+        </div>
+        <div data-role="page" data-control-title="View" id="page2" >
+            <div data-theme="b" data-role="header">
+                <h1 class="ui-title">
+                    Mobile Client
+                </h1>
+            </div>
+            <div role="main" class="ui-content" id="load" >
+                <a href="#" id="refresh" data-icon="refresh" data-iconpos="right" class="ui-btn  ui-icon-refresh ui-btn-icon-right">
+                    Refresh Images
+                </a>
+            </div>
+            
+            <div data-theme="a" data-role="footer" data-position="fixed">
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        <li>
+                            <a href="#page1" data-transition="flip" data-theme="c" data-icon="home">
+                                Upload
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#page2" data-transition="flip" data-theme="e" data-icon="star">
+                                View
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="phonegap.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/jquery-1.11.1.js"></script>
+        <script type="text/javascript" src="js/jquery.mobile-1.4.2.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+        <script type="text/javascript">
+        function getImage() {
+            console.log('hello getimage in index.html');
+        // Retrieve image file location from specified source
+        navigator.camera.getPicture(uploadPhoto, function(message) {
+        alert('get picture failed');
+		},{
+        quality: 50,
+        destinationType: navigator.camera.DestinationType.FILE_URI,
+        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+		}
+        );
+        
+        }
+        
+        function uploadPhoto(imageURI) {
+        var options = new FileUploadOptions();
+        options.fileKey="uploadfile";
+        options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
+        options.mimeType="image/jpeg";
+        
+        var params = new Object();
+        params.value1 = "test";
+        params.value2 = "param";
+        
+        options.params = params;
+        options.chunkedMode = false;
+        
+        var ft = new FileTransfer();
+        ft.upload(imageURI, "http://martinxu2014.com/upload.php", win, fail, options);
+        }
+        
+        function win(r) {
+        console.log("Code = " + r.responseCode);
+        console.log("Response = " + r.response);
+        console.log("Sent = " + r.bytesSent);
+        alert(r.response);
+        }
+        
+        function fail(error) {
+        alert("An error has occurred: Code = " = error.code);
+        }
+        $(document).ready(function(){
+ 
+                        $.getJSON("http://martinxu2014.com/jsontest.php",function(result){
+                                    $.each(result, function(i, field){
+                                        $("<img/>").attr("src", "http://martinxu2014.com/upload/"+field).appendTo("#load");
+                                    });
+                        });
+                                            
+        });
+        $("#refresh").click(function() {
+                              location.reload();
+                              });
+        
+        $("#form111").submit(function() {
+                          // Collects the values ​​that the user insert
+                          var userdata = $("#username").val();
+                          var passwordData = $("#passwrd").val();
+                          var Validationfile = "http://martinxu2014.com/login.php";
+                          
+                             $.post(
+                                    Validationfile,
+                                    { user : userdata, password : passwordData},
+                                    function(data) {
+                                        var response = jQuery.parseJSON(data);
+                                    
+                                        if(response == "login success"){
+                                            console.log('success');
+                                            alert(response);
+                                            $.mobile.changePage("#page1");
+                                        }else{
+                                            alert(response);
+                                            console.log('fail');
+                                        }
+                                 
+                                    });
+                             return false;
+                        });
+                        
+        </script>
+
+    </body>
+   
+</html>
